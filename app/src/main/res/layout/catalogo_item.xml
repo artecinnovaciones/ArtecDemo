@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/cv"
+    android:elevation="7dp"
+    android:layout_margin="5dp"
+    android:background="#42000000"
+    card_view:cardCornerRadius="4dp">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="215dp"
+            android:padding="5dp">
+
+            <com.github.snowdream.android.widget.SmartImageView
+                android:id="@+id/imgproducto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_margin="3dp"
+                android:scaleType="centerCrop"/>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="3dp"
+                android:layout_weight="2">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Comida 1"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginBottom="3dp"
+                    android:id="@+id/NomProd"
+                    android:background="?android:attr/selectableItemBackground"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:layout_centerVertical="true"
+                    android:text="$100.00 MXN"
+                    android:layout_marginStart="5dp"
+                    android:id="@+id/PrecioProd" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+</android.support.v7.widget.CardView>

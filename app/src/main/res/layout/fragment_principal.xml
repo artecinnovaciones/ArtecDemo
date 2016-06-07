@@ -1,0 +1,35 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_layout"
+    tools:context=".Fragments.PrincipalFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="7dp"
+            android:id="@+id/imageTrompos"
+            android:src="@drawable/trompos"
+            android:background="@drawable/boton_trompos"
+            android:elevation="5dp"/>
+
+        <ImageButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="7dp"
+            android:id="@+id/imageArtec"
+            android:src="@drawable/artecc"
+            android:scaleType="fitCenter"
+            android:background="@drawable/boton_artec"/>
+    </LinearLayout>
+
+</FrameLayout>
