@@ -5,11 +5,9 @@ import android.app.Dialog;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.graphics.drawable.LayerDrawable;
-import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -27,10 +25,6 @@ import com.artecinnovaciones.artecdemo.R;
 import com.artecinnovaciones.artecdemo.Utilidades.Spreference;
 import com.artecinnovaciones.artecdemo.Utilidades.Utils;
 import com.github.fafaldo.fabtoolbar.widget.FABToolbarLayout;
-import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.gcm.GoogleCloudMessaging;
-
-import java.io.IOException;
 
 public class PrincipalActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -47,13 +41,12 @@ public class PrincipalActivity extends AppCompatActivity implements View.OnClick
     Dialog customDialog = null;
     ImageButton aF,aC;
 
-    private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+ /*   private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 
     private GoogleCloudMessaging gcm = null;
 
     private String SENDER_ID = "58800470060";
-    private String regid;
-
+    private String regid; */
 
     public Activity activity() {
 
@@ -217,47 +210,51 @@ public class PrincipalActivity extends AppCompatActivity implements View.OnClick
     ////////////////////////////////////////////////////////////////
 
     public void aceptarN (final Context cont){
-          boolean Spreferencem = new Spreference(getApplicationContext()).esprimeravezquesale();
+        boolean Spreferencem = new Spreference(getApplicationContext()).esprimeravezquesale();
 
         if (Spreferencem) {
 
-        customDialog = new Dialog(this, android.R.style.Theme_Holo_Light_Panel);
-        customDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        customDialog.setCancelable(false);
-        customDialog.setContentView(R.layout.activity_dialog);
+            customDialog = new Dialog(this, android.R.style.Theme_Holo_Light_Panel);
+            customDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            customDialog.setCancelable(false);
+            customDialog.setContentView(R.layout.activity_dialog);
 
-        TextView contenido = (TextView) customDialog.findViewById(R.id.contenido);
-        contenido.setText("Ar-Tec Desea enviarle notificaciones\n¿Desea Aceptar?");
+            TextView contenido = (TextView) customDialog.findViewById(R.id.contenido);
+            contenido.setText("Ar-Tec Desea enviarle notificaciones\n¿Desea Aceptar?");
 
-        aF = (ImageButton) customDialog.findViewById(R.id.aceptar);
-        aC = (ImageButton) customDialog.findViewById(R.id.cancelar);
+            aF = (ImageButton) customDialog.findViewById(R.id.aceptar);
+            aC = (ImageButton) customDialog.findViewById(R.id.cancelar);
 
-        aF.setImageResource(R.drawable.ic_aceptar);
-        aC.setImageResource(R.drawable.ic_cancelar);
+            aF.setImageResource(R.drawable.ic_aceptar);
+            aC.setImageResource(R.drawable.ic_cancelar);
 
-        aF.setOnClickListener(new View.OnClickListener() {
+            aF.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View view) {
-                getReigstrationId(cont);
-                customDialog.dismiss();
-            }
-        });
+                @Override
+                public void onClick(View view) {
+                    Post post= new Post();
+                    //String msg=
+                    post.Sendpost("http://www.artecinnovaciones.com/registro_cel.php","id_movil","",1,cont);
+                    //getReigstrationId(cont);
+                    customDialog.dismiss();
+                    //Toast.makeText(cont, msg, Toast.LENGTH_LONG).show();
+                }
+            });
 
-        aC.setOnClickListener(new View.OnClickListener() {
+            aC.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View view) {
-                //methodAsyncTaskCalificacion("No");
-                customDialog.dismiss();
-            }
-        });
+                @Override
+                public void onClick(View view) {
+                    //methodAsyncTaskCalificacion("No");
+                    customDialog.dismiss();
+                }
+            });
 
-        customDialog.show();
-         }
+            customDialog.show();
+        }
     }
 
-
+/*
     public void getReigstrationId(final Context context){
         new AsyncTask<Void, Void, Void>(){
 
@@ -277,7 +274,7 @@ public class PrincipalActivity extends AppCompatActivity implements View.OnClick
 
                     //msg = "Movil registrado, registration ID=" + regid;
                     Post post= new Post();
-                    msg=post.Sendpost("http://www.artecinnovaciones.com/registro_cel.php","id_movil",regid);
+                    msg=post.Sendpost("http://www.artecinnovaciones.com/registro_cel.php","id_movil",regid,1);
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -306,6 +303,6 @@ public class PrincipalActivity extends AppCompatActivity implements View.OnClick
         return false;
         //   }
         // return true;
-    }
+    } */
 
 }

@@ -1,5 +1,12 @@
 package com.artecinnovaciones.artecdemo.Conexion;
 
+import android.content.Context;
+import android.os.AsyncTask;
+import android.util.Log;
+
+import com.google.android.gms.gcm.GoogleCloudMessaging;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,26 +25,64 @@ import cz.msebera.android.httpclient.util.EntityUtils;
  */
 public class Post {
 
-    public String Sendpost(String posturl,String id,String dato){
+    private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 
-        try {
+    private GoogleCloudMessaging gcm = null;
 
-            HttpClient cliente = new DefaultHttpClient();
-            HttpPost post = new HttpPost(posturl);
+    private String SENDER_ID = "58800470060";
+    private String regid;
 
-            List<NameValuePair> nvp = new ArrayList<NameValuePair>();
-            nvp.add(new BasicNameValuePair(id,dato));
+    String text="";
 
-            post.setEntity(new UrlEncodedFormEntity(nvp));
+    public void Sendpost(final String posturl,final String id,final String dato,final int pet,final Context context){
+        new AsyncTask<Void, Void, Void>(){
 
-            HttpResponse resp = cliente.execute(post);
+            private String msg;
 
-            HttpEntity ent = resp.getEntity();
-            String text = EntityUtils.toString(ent);
+            @Override
+            protected Void doInBackground(Void... arg0) {
 
-            return text;
+                if (gcm == null) {
+                    gcm = GoogleCloudMessaging.getInstance(context);
+                }
 
-        } catch(Exception e) { return "error";}
+                try {
+                    Log.i("Sender",SENDER_ID);
+
+                    regid = gcm.register(SENDER_ID);
+
+                    HttpClient cliente = new DefaultHttpClient();
+                    HttpPost post = new HttpPost(posturl);
+
+                    List<NameValuePair> nvp = new ArrayList<NameValuePair>();
+                    if (pet==1){
+                        nvp.add(new BasicNameValuePair(id,regid));
+                    }if (pet==2){
+                        nvp.add(new BasicNameValuePair(id,dato));
+                        nvp.add(new BasicNameValuePair("id_user",regid));
+                    }else{
+                        nvp.add(new BasicNameValuePair(id,dato));
+                        nvp.add(new BasicNameValuePair("id_user",regid));
+                    }
+
+                    post.setEntity(new UrlEncodedFormEntity(nvp));
+
+                    HttpResponse resp = cliente.execute(post);
+
+                    HttpEntity ent = resp.getEntity();
+                    text = EntityUtils.toString(ent);
+
+                } catch (IOException e) { e.printStackTrace();
+                } catch(Exception e) { e.printStackTrace(); }
+
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void result) {
+
+            }
+        }.execute();
     }
 
 }
