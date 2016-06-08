@@ -20,6 +20,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.artecinnovaciones.artecdemo.Conexion.Post;
 import com.artecinnovaciones.artecdemo.R;
 import com.artecinnovaciones.artecdemo.Utilidades.CustomItemClickListener;
 import com.artecinnovaciones.artecdemo.Adapters.Datos;
@@ -45,6 +46,7 @@ public class RecyclerFragment extends Fragment {
     ArrayList nombre = new ArrayList();
     ArrayList precio = new ArrayList();
     ArrayList info = new ArrayList();
+    ArrayList id = new ArrayList();
 
     Dialog customDialog = null;
 
@@ -55,6 +57,9 @@ public class RecyclerFragment extends Fragment {
     MenuItem item;
     LayerDrawable icon;
     int a=0;
+    String msg;
+
+    Post post= new Post();
 
     LinearLayout errorC;
 
@@ -99,6 +104,7 @@ public class RecyclerFragment extends Fragment {
         nombre.clear();
         precio.clear();
         info.clear();
+        id.clear();
 
         persons = new ArrayList<>();
 
@@ -123,6 +129,7 @@ public class RecyclerFragment extends Fragment {
                     try {
                         JSONArray jsonArray = new JSONArray(new String(responseBody));
                         for (int i = 0; i < jsonArray.length(); i++) {
+                            id.add(jsonArray.getJSONObject(i).getString("id"));
                             nombre.add(jsonArray.getJSONObject(i).getString("titulo_img"));
                             precio.add(jsonArray.getJSONObject(i).getString("precio_img"));
                             info.add(jsonArray.getJSONObject(i).getString("descripcion_img"));
@@ -156,12 +163,14 @@ public class RecyclerFragment extends Fragment {
         rv.setAdapter(adapter);
     }
 
-    private void openInfo(int i) {
+    private void openInfo(final int i) {
 
         customDialog = new Dialog(getActivity(), android.R.style.Theme_Holo_Light_Panel);
         customDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         customDialog.setCancelable(true);
         customDialog.setContentView(R.layout.activity_dialog);
+
+        //String idP=id.get(i).toString();
 
         anim = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.escalar);
 
@@ -180,8 +189,9 @@ public class RecyclerFragment extends Fragment {
             public void onClick(View view) {
                 //customDialog.dismiss();
                 aF.startAnimation(anim);
-                //menuP=new PrincipalActivity();
-                //menuP.notificacionMenu(4);
+
+                //msg=
+                post.Sendpost("http://www.artecinnovaciones.com/favoritos.php","id_prod",id.get(i).toString(),2,getActivity().getApplicationContext());
             }
         });
 
@@ -192,69 +202,13 @@ public class RecyclerFragment extends Fragment {
                 aC.startAnimation(anim);
                 a+=1;
                 Utils.setBadgeCount(RecyclerFragment.this.getActivity(), icon, a);
+                //msg=
+                post.Sendpost("http://www.artecinnovaciones.com/carrito.php", "id_prod", id.get(i).toString(), 3, getActivity().getApplicationContext());
             }
         });
 
         customDialog.show();
 
     }
-
-    /*private void initializeData(){
-        persons = new ArrayList<>();
-        persons.add(new Datos("Emma Wilson", "23 years old", R.drawable.bebidas));
-        persons.add(new Datos("Lavery Maiss", "25 years old", R.drawable.comidas));
-        persons.add(new Datos("Lillie Watts", "35 years old", R.drawable.info));
-        persons.add(new Datos("Emma Wilson", "23 years old", R.drawable.bebidas));
-        persons.add(new Datos("Lavery Maiss", "25 years old", R.drawable.comidas));
-        persons.add(new Datos("Lillie Watts", "35 years old", R.drawable.info));
-        persons.add(new Datos("Emma Wilson", "23 years old", R.drawable.bebidas));
-        persons.add(new Datos("Lavery Maiss", "25 years old", R.drawable.comidas));
-        persons.add(new Datos("Lillie Watts", "35 years old", R.drawable.info));
-    }
-
-    private class ImagenAdapter extends BaseAdapter {
-        Context ctx;
-        LayoutInflater layoutInflater;
-        SmartImageView smartImageView;
-        TextView imgnombre, imgprecio;
-
-        public ImagenAdapter(Context applicationContext){
-            this.ctx=applicationContext;
-            layoutInflater=(LayoutInflater)ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        }
-
-        @Override
-        public int getCount() {
-            return imagen.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return position;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            ViewGroup viewGroup= (ViewGroup)layoutInflater.inflate(R.layout.lista_item,null);
-            smartImageView=(SmartImageView)viewGroup.findViewById(R.id.imagen1);
-            imgnombre=(TextView)viewGroup.findViewById(R.id.imgnombre);
-            imgprecio=(TextView)viewGroup.findViewById(R.id.imgprecio);
-
-            String urlFinal="http://artecinnovaciones.com/uploads"+imagen.get(position).toString();
-            Rect rect=new Rect(smartImageView.getLeft(),smartImageView.getTop(),smartImageView.getRight(),smartImageView.getBottom());
-
-            smartImageView.setImageUrl(urlFinal,rect);
-
-            imgnombre.setText(nombre.get(position).toString());
-            imgprecio.setText(precio.get(position).toString());
-
-            return viewGroup;
-        }
-    }*/
 }
 
