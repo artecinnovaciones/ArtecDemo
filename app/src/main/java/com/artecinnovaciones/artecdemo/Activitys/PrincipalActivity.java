@@ -43,6 +43,7 @@ public class PrincipalActivity extends AppCompatActivity implements View.OnClick
     LayerDrawable icon;
     int a = 0;
 
+
     Dialog customDialog = null;
     ImageButton aF,aC;
 
