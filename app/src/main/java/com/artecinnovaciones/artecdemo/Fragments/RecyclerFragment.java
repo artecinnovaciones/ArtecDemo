@@ -19,7 +19,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.artecinnovaciones.artecdemo.Conexion.Post;
 import com.artecinnovaciones.artecdemo.R;
@@ -58,23 +57,23 @@ public class RecyclerFragment extends Fragment {
     MenuItem item;
     LayerDrawable icon;
     int a=0;
-    String msg;
+    int msg=0;
 
     Post post= new Post();
 
     LinearLayout errorC;
 
-    public RecyclerFragment(){    }
+    public RecyclerFragment(int i){  this.msg=i;  }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        msg=getArguments().getString("list");
-        //msg = getArguments() != null ? getArguments().getString("list");
+        //msg=getArguments().getString("list");
+        //int a=Integer.parseInt(msg);
         View view = inflater.inflate(R.layout.activity_recycler, container, false);
 
-        descargarImagen(view,msg);
+        descargarImagen(view);
         return view;
     }
 
@@ -103,7 +102,7 @@ public class RecyclerFragment extends Fragment {
 
     }
 
-    private void descargarImagen(final View view,final String tipo){
+    private void descargarImagen(final View view){
         nombre.clear();
         precio.clear();
         info.clear();
@@ -124,7 +123,7 @@ public class RecyclerFragment extends Fragment {
         errorC=(LinearLayout)ViewUtil.findViewById(view,R.id.error_internet);
 
         String url1="http://artecinnovaciones.com/Peticion_json.php";
-        if (tipo.equals("fav")){
+        if (msg==1){
             url1="http://artecinnovaciones.com/json_favoritos.php";
         }
 
@@ -137,13 +136,14 @@ public class RecyclerFragment extends Fragment {
                     try {
                         JSONArray jsonArray = new JSONArray(new String(responseBody));
                         for (int i = 0; i < jsonArray.length(); i++) {
+                            String pre="$ "+jsonArray.getJSONObject(i).getString("precio_img");
                             id.add(jsonArray.getJSONObject(i).getString("id"));
                             nombre.add(jsonArray.getJSONObject(i).getString("titulo_img"));
-                            precio.add(jsonArray.getJSONObject(i).getString("precio_img"));
+                            precio.add(pre);
                             info.add(jsonArray.getJSONObject(i).getString("descripcion_img"));
 
                             persons.add(new Datos(jsonArray.getJSONObject(i).getString("titulo_img"),
-                                    jsonArray.getJSONObject(i).getString("precio_img"),
+                                    pre,
                                     jsonArray.getJSONObject(i).getString("img")));
                         }
                         initializeAdapter();
