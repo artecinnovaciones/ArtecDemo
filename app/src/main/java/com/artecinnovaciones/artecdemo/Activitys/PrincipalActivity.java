@@ -98,7 +98,8 @@ public class PrincipalActivity extends AppCompatActivity implements View.OnClick
                 cerrar();
                 break;
             case R.id.favorito:
-                favoritos();
+                //favoritos();
+                lista();
                 cerrar();
                 break;
             case R.id.buscar:
@@ -187,8 +188,11 @@ public class PrincipalActivity extends AppCompatActivity implements View.OnClick
 
     public void lista() {
         FragmentTransaction trans = getFragmentManager().beginTransaction();
+        Bundle args = new Bundle();
+        args.putString("list", "fav");
 
         RecyclerFragment LisFrag = new RecyclerFragment();
+        LisFrag.setArguments(args);
         trans.replace(R.id.frag_l, LisFrag);
         trans.addToBackStack(null);
         trans.commit();

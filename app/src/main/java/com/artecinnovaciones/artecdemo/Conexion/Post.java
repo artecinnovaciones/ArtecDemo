@@ -60,7 +60,7 @@ public class Post {
                     }if (pet==2){
                         nvp.add(new BasicNameValuePair(id,dato));
                         nvp.add(new BasicNameValuePair("id_user",regid));
-                    }else{
+                    }if (pet==3){
                         nvp.add(new BasicNameValuePair(id,dato));
                         nvp.add(new BasicNameValuePair("id_user",regid));
                     }

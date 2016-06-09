@@ -19,6 +19,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.artecinnovaciones.artecdemo.Conexion.Post;
 import com.artecinnovaciones.artecdemo.R;
@@ -69,7 +70,10 @@ public class RecyclerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        msg=getArguments().getString("list");
+        //msg = getArguments() != null ? getArguments().getString("list");
         View view = inflater.inflate(R.layout.activity_recycler, container, false);
+        Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
 
         descargarImagen(view);
         return view;
