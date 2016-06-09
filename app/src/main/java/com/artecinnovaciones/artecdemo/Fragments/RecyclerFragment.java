@@ -51,19 +51,22 @@ public class RecyclerFragment extends Fragment {
     Dialog customDialog = null;
 
     Animation anim;
-    ImageButton aF,aC;
+    ImageButton aF, aC;
 
     Menu m;
     MenuItem item;
     LayerDrawable icon;
-    int a=0;
-    int msg=0;
+    int a = 0;
+    int msg = 0;
 
-    Post post= new Post();
+    Post post = new Post();
 
     LinearLayout errorC;
 
-    public RecyclerFragment(int i){  this.msg=i;  }
+    public RecyclerFragment  (int i) {
+        this.msg = i;
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -95,14 +98,14 @@ public class RecyclerFragment extends Fragment {
         //PrincipalActivity getA=new PrincipalActivity();
         //getA.getActivity().getMenuInflater();
         getActivity().getMenuInflater();
-        m=menu;
+        m = menu;
 
         item = m.findItem(R.id.action_shop);
         icon = (LayerDrawable) item.getIcon();
 
     }
 
-    private void descargarImagen(final View view){
+    private void descargarImagen(final View view) {
         nombre.clear();
         precio.clear();
         info.clear();
@@ -110,9 +113,9 @@ public class RecyclerFragment extends Fragment {
 
         persons = new ArrayList<>();
 
-        rv= ViewUtil.findViewById(view, R.id.rv);
+        rv = ViewUtil.findViewById(view, R.id.rv);
 
-        GridLayoutManager llm = new GridLayoutManager(getActivity(),2);
+        GridLayoutManager llm = new GridLayoutManager(getActivity(), 2);
         rv.setLayoutManager(llm);
         rv.setHasFixedSize(true);
 
@@ -120,11 +123,11 @@ public class RecyclerFragment extends Fragment {
         pDialog.setMessage("Cargando datos...");
         pDialog.show();
 
-        errorC=(LinearLayout)ViewUtil.findViewById(view,R.id.error_internet);
+        errorC = (LinearLayout) ViewUtil.findViewById(view, R.id.error_internet);
 
-        String url1="http://artecinnovaciones.com/Peticion_json.php";
-        if (msg==1){
-            url1="http://artecinnovaciones.com/json_favoritos.php";
+        String url1 = "http://artecinnovaciones.com/Peticion_json.php";
+        if (msg == 1) {
+            url1 = "http://artecinnovaciones.com/json_favoritos.php";
         }
 
         AsyncHttpClient cliente = new AsyncHttpClient();
@@ -136,7 +139,7 @@ public class RecyclerFragment extends Fragment {
                     try {
                         JSONArray jsonArray = new JSONArray(new String(responseBody));
                         for (int i = 0; i < jsonArray.length(); i++) {
-                            String pre="$ "+jsonArray.getJSONObject(i).getString("precio_img");
+                            String pre = "$ " + jsonArray.getJSONObject(i).getString("precio_img");
                             id.add(jsonArray.getJSONObject(i).getString("id"));
                             nombre.add(jsonArray.getJSONObject(i).getString("titulo_img"));
                             precio.add(pre);
@@ -161,7 +164,7 @@ public class RecyclerFragment extends Fragment {
         });
     }
 
-    private void initializeAdapter(){
+    private void initializeAdapter() {
         MyAdapter adapter = new MyAdapter(persons, new CustomItemClickListener() {
             @Override
             public void onItemClick(View v, int position) {
@@ -199,7 +202,7 @@ public class RecyclerFragment extends Fragment {
                 aF.startAnimation(anim);
 
                 //msg=
-                post.Sendpost("http://www.artecinnovaciones.com/favoritos.php","id_prod",id.get(i).toString(),2,getActivity().getApplicationContext());
+                post.Sendpost("http://www.artecinnovaciones.com/favoritos.php", "id_prod", id.get(i).toString(), 2, getActivity().getApplicationContext());
             }
         });
 
@@ -208,7 +211,7 @@ public class RecyclerFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 aC.startAnimation(anim);
-                a+=1;
+                a += 1;
                 Utils.setBadgeCount(RecyclerFragment.this.getActivity(), icon, a);
                 //msg=
                 post.Sendpost("http://www.artecinnovaciones.com/carrito.php", "id_prod", id.get(i).toString(), 3, getActivity().getApplicationContext());
