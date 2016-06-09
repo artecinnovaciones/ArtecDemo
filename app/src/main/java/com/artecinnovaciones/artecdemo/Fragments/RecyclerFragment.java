@@ -123,9 +123,15 @@ public class RecyclerFragment extends Fragment {
         pDialog.show();
 
         errorC=(LinearLayout)ViewUtil.findViewById(view,R.id.error_internet);
+        String url="";
+        if (msg=="fav"){
+            url="http://artecinnovaciones.com/json_favoritos.php";
+        }else{
+            url="http://artecinnovaciones.com/Peticion_json.php";
+        }
 
         AsyncHttpClient cliente = new AsyncHttpClient();
-        cliente.post("http://artecinnovaciones.com/Peticion_json.php", new AsyncHttpResponseHandler() {
+        cliente.post(url, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 if (statusCode == 200) {
