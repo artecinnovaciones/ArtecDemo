@@ -50,7 +50,7 @@ public class MenuRestFragment extends Fragment {
     public void lista(){
         FragmentTransaction trans = getFragmentManager().beginTransaction();
 
-        RecyclerFragment LisFrag = new RecyclerFragment();
+        RecyclerFragment LisFrag = new RecyclerFragment(2);
         trans.replace(R.id.frag_l, LisFrag);
         trans.addToBackStack(null);
         trans.commit();

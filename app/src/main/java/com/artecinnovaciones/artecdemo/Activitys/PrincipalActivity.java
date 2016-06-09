@@ -188,11 +188,8 @@ public class PrincipalActivity extends AppCompatActivity implements View.OnClick
 
     public void lista() {
         FragmentTransaction trans = getFragmentManager().beginTransaction();
-        Bundle args = new Bundle();
-        args.putString("list", "fav");
 
-        RecyclerFragment LisFrag = new RecyclerFragment();
-        LisFrag.setArguments(args);
+        RecyclerFragment LisFrag = new RecyclerFragment(1);
         trans.replace(R.id.frag_l, LisFrag);
         trans.addToBackStack(null);
         trans.commit();
