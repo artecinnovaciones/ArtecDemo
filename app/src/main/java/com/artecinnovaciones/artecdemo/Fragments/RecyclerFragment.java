@@ -73,9 +73,8 @@ public class RecyclerFragment extends Fragment {
         msg=getArguments().getString("list");
         //msg = getArguments() != null ? getArguments().getString("list");
         View view = inflater.inflate(R.layout.activity_recycler, container, false);
-        Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
 
-        descargarImagen(view);
+        descargarImagen(view,msg);
         return view;
     }
 
@@ -104,7 +103,7 @@ public class RecyclerFragment extends Fragment {
 
     }
 
-    private void descargarImagen(final View view){
+    private void descargarImagen(final View view,final String tipo){
         nombre.clear();
         precio.clear();
         info.clear();
@@ -123,15 +122,14 @@ public class RecyclerFragment extends Fragment {
         pDialog.show();
 
         errorC=(LinearLayout)ViewUtil.findViewById(view,R.id.error_internet);
-        String url="";
-        if (msg=="fav"){
-            url="http://artecinnovaciones.com/json_favoritos.php";
-        }else{
-            url="http://artecinnovaciones.com/Peticion_json.php";
+
+        String url1="http://artecinnovaciones.com/Peticion_json.php";
+        if (tipo.equals("fav")){
+            url1="http://artecinnovaciones.com/json_favoritos.php";
         }
 
         AsyncHttpClient cliente = new AsyncHttpClient();
-        cliente.post(url, new AsyncHttpResponseHandler() {
+        cliente.post(url1, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 if (statusCode == 200) {
