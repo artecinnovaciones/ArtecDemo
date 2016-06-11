@@ -3,10 +3,13 @@ package com.artecinnovaciones.artecdemo.Fragments;
 import android.app.Dialog;
 import android.app.Fragment;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.graphics.drawable.LayerDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,12 +30,14 @@ import com.artecinnovaciones.artecdemo.Adapters.Datos;
 import com.artecinnovaciones.artecdemo.Adapters.MyAdapter;
 import com.artecinnovaciones.artecdemo.Utilidades.Utils;
 import com.artecinnovaciones.artecdemo.Utilidades.ViewUtil;
+import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,13 +62,20 @@ public class RecyclerFragment extends Fragment {
     MenuItem item;
     LayerDrawable icon;
     int a=0;
-    int msg=0;
+    int msg=0; String url1="";
 
     Post post= new Post();
 
     LinearLayout errorC;
 
-    public RecyclerFragment(int i){  this.msg=i;  }
+    private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+
+    private GoogleCloudMessaging gcm = null;
+
+    private String SENDER_ID = "58800470060";
+    private String regid;
+
+    public RecyclerFragment(int i){  msg=i;  }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -122,9 +134,11 @@ public class RecyclerFragment extends Fragment {
 
         errorC=(LinearLayout)ViewUtil.findViewById(view,R.id.error_internet);
 
-        String url1="http://artecinnovaciones.com/Peticion_json.php";
         if (msg==1){
-            url1="http://artecinnovaciones.com/json_favoritos.php";
+            url1=getReigstrationId(getActivity().getApplicationContext());
+
+        }if (msg==2){
+            url1="http://artecinnovaciones.com/Peticion_json.php";
         }
 
         AsyncHttpClient cliente = new AsyncHttpClient();
@@ -217,6 +231,38 @@ public class RecyclerFragment extends Fragment {
 
         customDialog.show();
 
+    }
+
+    public String getReigstrationId(final Context context){
+        new AsyncTask<Void, Void, String>(){
+
+            private String msg;
+
+            @Override
+            protected String doInBackground(Void... arg0) {
+
+                if (gcm == null) {
+                    gcm = GoogleCloudMessaging.getInstance(context);
+                }
+
+                try {
+                    Log.i("Sender", SENDER_ID);
+
+                    regid = gcm.register(SENDER_ID);
+                    msg="http://artecinnovaciones.com/json_favoritos.php?id_user="+regid;
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                return msg;
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+            }
+        }.execute();
+        return "http://artecinnovaciones.com/json_favoritos.php?id_user="+regid;
     }
 }
 
