@@ -126,7 +126,7 @@ public class RecyclerFragment extends Fragment {
         if (msg==1){
             url1="http://artecinnovaciones.com/json_favoritos.php";
         }
-
+ 
         AsyncHttpClient cliente = new AsyncHttpClient();
         cliente.post(url1, new AsyncHttpResponseHandler() {
             @Override
