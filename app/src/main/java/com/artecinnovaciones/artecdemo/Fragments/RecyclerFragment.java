@@ -135,7 +135,7 @@ public class RecyclerFragment extends Fragment {
         errorC=(LinearLayout)ViewUtil.findViewById(view,R.id.error_internet);
 
         if (msg==1){
-            getReigstrationId(getActivity().getApplicationContext());
+            url1=getReigstrationId(getActivity().getApplicationContext());
 
         }if (msg==2){
             url1="http://artecinnovaciones.com/Peticion_json.php";
@@ -233,13 +233,13 @@ public class RecyclerFragment extends Fragment {
 
     }
 
-    public void getReigstrationId(final Context context){
-        new AsyncTask<Void, Void, Void>(){
+    public String getReigstrationId(final Context context){
+        new AsyncTask<Void, Void, String>(){
 
             private String msg;
 
             @Override
-            protected Void doInBackground(Void... arg0) {
+            protected String doInBackground(Void... arg0) {
 
                 if (gcm == null) {
                     gcm = GoogleCloudMessaging.getInstance(context);
@@ -249,19 +249,20 @@ public class RecyclerFragment extends Fragment {
                     Log.i("Sender", SENDER_ID);
 
                     regid = gcm.register(SENDER_ID);
-                    url1="http://artecinnovaciones.com/json_favoritos.php?id_user="+regid;
+                    msg="http://artecinnovaciones.com/json_favoritos.php?id_user="+regid;
 
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
 
-                return null;
+                return msg;
             }
 
             @Override
-            protected void onPostExecute(Void result) {
+            protected void onPostExecute(String result) {
             }
         }.execute();
+        return "http://artecinnovaciones.com/json_favoritos.php?id_user="+regid;
     }
 }
 
