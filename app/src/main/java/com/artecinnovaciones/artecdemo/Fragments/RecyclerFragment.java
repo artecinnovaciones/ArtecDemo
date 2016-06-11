@@ -140,7 +140,7 @@ public class RecyclerFragment extends Fragment {
         }if (msg==2){
             url1="http://artecinnovaciones.com/Peticion_json.php";
         }
-
+ 
         AsyncHttpClient cliente = new AsyncHttpClient();
         cliente.post(url1, new AsyncHttpResponseHandler() {
             @Override
