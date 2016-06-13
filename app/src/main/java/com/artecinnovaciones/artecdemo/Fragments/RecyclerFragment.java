@@ -265,4 +265,3 @@ public class RecyclerFragment extends Fragment {
         return "http://artecinnovaciones.com/json_favoritos.php?id_user="+regid;
     }
 }
-
