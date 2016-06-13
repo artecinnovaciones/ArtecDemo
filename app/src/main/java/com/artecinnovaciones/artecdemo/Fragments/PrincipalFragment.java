@@ -56,7 +56,7 @@ public class PrincipalFragment extends Fragment {
     public void lista(){
         FragmentTransaction trans = getFragmentManager().beginTransaction();
 
-        MenuRestFragment LisFrag = new MenuRestFragment();
+        RecyclerFragment LisFrag = new RecyclerFragment(2);
         trans.replace(R.id.frag_l, LisFrag);
         trans.addToBackStack(null);
         trans.commit();

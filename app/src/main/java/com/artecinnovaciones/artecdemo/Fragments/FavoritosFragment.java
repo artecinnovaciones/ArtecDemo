@@ -48,6 +48,8 @@ public class FavoritosFragment extends Fragment {
     ArrayList precio = new ArrayList();
     ArrayList info = new ArrayList();
     ArrayList id = new ArrayList();
+    ArrayList cant = new ArrayList();
+    ArrayList tot = new ArrayList();
 
     int c=0,t=0;
 
@@ -80,6 +82,8 @@ public class FavoritosFragment extends Fragment {
         precio.clear();
         info.clear();
         id.clear();
+        cant.clear();
+        tot.clear();
 
         persons = new ArrayList<>();
 
@@ -115,16 +119,14 @@ public class FavoritosFragment extends Fragment {
                             nombre.add(jsonArray.getJSONObject(i).getString("titulo_img"));
                             precio.add(pre);
                             info.add(jsonArray.getJSONObject(i).getString("descripcion_img"));
-
-                            c+=Integer.parseInt(jsonArray.getJSONObject(i).getString("cant"));
-                            t+=Integer.parseInt(jsonArray.getJSONObject(i).getString("total"));
+                            cant.add(jsonArray.getJSONObject(i).getString("cant"));
+                            //tot.add(jsonArray.getJSONObject(i).getString("total"));
 
                             persons.add(new Datos(jsonArray.getJSONObject(i).getString("titulo_img"),
                                     pre,
                                     jsonArray.getJSONObject(i).getString("img")));
                         }
-                        T_c.setText(c);
-                        T_t.setText(t);
+
                         initializeAdapter();
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -142,6 +144,13 @@ public class FavoritosFragment extends Fragment {
     }
 
     private void initializeAdapter() {
+        double cn=0,tn=0;
+        for (int i = 0; i < cant.size(); i++) {
+            cn+=Double.parseDouble(cant.get(i).toString());
+            tn+=Double.parseDouble(tot.get(i).toString());
+        }
+        T_c.setText(" "+cn);
+        T_t.setText("$ "+tn);
         MyAdapter adapter = new MyAdapter(persons, new CustomItemClickListener() {
             @Override
             public void onItemClick(View v, int position) {
