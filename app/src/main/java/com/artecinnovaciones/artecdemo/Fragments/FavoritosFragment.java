@@ -53,7 +53,7 @@ public class FavoritosFragment extends Fragment {
 
     Post post = new Post();
 
-    RelativeLayout errorC;
+    RelativeLayout errorC,R2;
 
     Dialog customDialog = null;
 
@@ -83,7 +83,7 @@ public class FavoritosFragment extends Fragment {
 
         persons = new ArrayList<>();
 
-        rv = ViewUtil.findViewById(view, R.id.LY_compras);
+        rv = ViewUtil.findViewById(view, R.id.compras);
 
         T_c=ViewUtil.findViewById(view,R.id.total_art);
         T_t=ViewUtil.findViewById(view,R.id.total_pagar);
@@ -97,6 +97,7 @@ public class FavoritosFragment extends Fragment {
         pDialog.show();
 
         errorC = ViewUtil.findViewById(view, R.id.LY_vacio);
+        R2 = ViewUtil.findViewById(view,R.id.LY_compras);
 
         String url1 = "http://artecinnovaciones.com/json_carrito.php?id_user=" + Post.regid;
 
@@ -115,16 +116,16 @@ public class FavoritosFragment extends Fragment {
                             precio.add(pre);
                             info.add(jsonArray.getJSONObject(i).getString("descripcion_img"));
 
-                            c+=jsonArray.getJSONObject(i).getInt("cant");
-                            t+=jsonArray.getJSONObject(i).getInt("total");
+                            c+=Integer.parseInt(jsonArray.getJSONObject(i).getString("cant"));
+                            t+=Integer.parseInt(jsonArray.getJSONObject(i).getString("total"));
 
                             persons.add(new Datos(jsonArray.getJSONObject(i).getString("titulo_img"),
                                     pre,
                                     jsonArray.getJSONObject(i).getString("img")));
                         }
-                        initializeAdapter();
                         T_c.setText(c);
                         T_t.setText(t);
+                        initializeAdapter();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -135,6 +136,7 @@ public class FavoritosFragment extends Fragment {
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                 pDialog.dismiss();
                 errorC.setVisibility(View.VISIBLE);
+                R2.setVisibility(View.GONE);
             }
         });
     }
