@@ -63,19 +63,11 @@ public class RecyclerFragment extends Fragment {
     LayerDrawable icon;
     int a = 0;
     int msg = 0;
-    private String idString = "";
     String url1 = "";
 
     Post post = new Post();
 
     LinearLayout errorC;
-
-    private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
-
-    private GoogleCloudMessaging gcm = null;
-
-    private String SENDER_ID = "58800470060";
-    private String regid;
 
     public RecyclerFragment(int i) {
         msg = i;
@@ -84,20 +76,11 @@ public class RecyclerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        //msg=getArguments().getString("list");
-        //int a=Integer.parseInt(msg);
         View view = inflater.inflate(R.layout.activity_recycler, container, false);
 
         descargarImagen(view);
         return view;
     }
-
-  /*  @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-    }*/
 
     @Override
     public void onStart() {
@@ -108,8 +91,6 @@ public class RecyclerFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        //PrincipalActivity getA=new PrincipalActivity();
-        //getA.getActivity().getMenuInflater();
         getActivity().getMenuInflater();
         m = menu;
 
@@ -139,7 +120,6 @@ public class RecyclerFragment extends Fragment {
         errorC = (LinearLayout) ViewUtil.findViewById(view, R.id.error_internet);
 
         if (msg == 1) {
-            //  getReigstrationId(getActivity().getApplicationContext());
             url1 = "http://artecinnovaciones.com/json_favoritos.php?id_user=" + Post.regid;
 
         }
@@ -198,8 +178,6 @@ public class RecyclerFragment extends Fragment {
         customDialog.setCancelable(true);
         customDialog.setContentView(R.layout.activity_dialog);
 
-        //String idP=id.get(i).toString();
-
         anim = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.escalar);
 
         TextView titulo = (TextView) customDialog.findViewById(R.id.titulo);
@@ -238,37 +216,4 @@ public class RecyclerFragment extends Fragment {
         customDialog.show();
 
     }
-/*
-    public void getReigstrationId(final Context context) {
-        new AsyncTask<Void, Void, String>() {
-
-
-            @Override
-            protected String doInBackground(Void... arg0) {
-
-                if (gcm == null) {
-                    gcm = GoogleCloudMessaging.getInstance(context);
-                }
-
-                try {
-                    Log.i("Sender", SENDER_ID);
-
-                    regid = gcm.register(SENDER_ID);
-
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                return "http://artecinnovaciones.com/json_favoritos.php?id_user=" + regid;
-            }
-
-            @Override
-            protected void onPostExecute(String result) {
-                url1 = result;
-
-            }
-        }.execute();
-
-    }*/
 }

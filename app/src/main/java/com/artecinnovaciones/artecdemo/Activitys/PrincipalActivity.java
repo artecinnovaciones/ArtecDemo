@@ -142,6 +142,7 @@ public class PrincipalActivity extends AppCompatActivity implements View.OnClick
         switch (id) {
             case R.id.action_shop:
                 //showSnackBar("Añadir a contactos");
+                favoritos();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
