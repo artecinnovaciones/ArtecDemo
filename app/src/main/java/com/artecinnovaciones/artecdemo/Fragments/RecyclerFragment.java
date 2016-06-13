@@ -56,15 +56,17 @@ public class RecyclerFragment extends Fragment {
     Dialog customDialog = null;
 
     Animation anim;
-    ImageButton aF,aC;
+    ImageButton aF, aC;
 
     Menu m;
     MenuItem item;
     LayerDrawable icon;
-    int a=0;
-    int msg=0; String url1="";
+    int a = 0;
+    int msg = 0;
+    private String idString = "";
+    String url1 = "";
 
-    Post post= new Post();
+    Post post = new Post();
 
     LinearLayout errorC;
 
@@ -75,7 +77,9 @@ public class RecyclerFragment extends Fragment {
     private String SENDER_ID = "58800470060";
     private String regid;
 
-    public RecyclerFragment(int i){  msg=i;  }
+    public RecyclerFragment(int i) {
+        msg = i;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -107,14 +111,14 @@ public class RecyclerFragment extends Fragment {
         //PrincipalActivity getA=new PrincipalActivity();
         //getA.getActivity().getMenuInflater();
         getActivity().getMenuInflater();
-        m=menu;
+        m = menu;
 
         item = m.findItem(R.id.action_shop);
         icon = (LayerDrawable) item.getIcon();
 
     }
 
-    private void descargarImagen(final View view){
+    private void descargarImagen(final View view) {
         nombre.clear();
         precio.clear();
         info.clear();
@@ -122,9 +126,9 @@ public class RecyclerFragment extends Fragment {
 
         persons = new ArrayList<>();
 
-        rv= ViewUtil.findViewById(view, R.id.rv);
+        rv = ViewUtil.findViewById(view, R.id.rv);
 
-        GridLayoutManager llm = new GridLayoutManager(getActivity(),2);
+        GridLayoutManager llm = new GridLayoutManager(getActivity(), 2);
         rv.setLayoutManager(llm);
         rv.setHasFixedSize(true);
 
@@ -132,13 +136,15 @@ public class RecyclerFragment extends Fragment {
         pDialog.setMessage("Cargando datos...");
         pDialog.show();
 
-        errorC=(LinearLayout)ViewUtil.findViewById(view,R.id.error_internet);
+        errorC = (LinearLayout) ViewUtil.findViewById(view, R.id.error_internet);
 
-        if (msg==1){
-            url1=getReigstrationId(getActivity().getApplicationContext());
+        if (msg == 1) {
+            //  getReigstrationId(getActivity().getApplicationContext());
+            url1 = "http://artecinnovaciones.com/json_favoritos.php?id_user=" + Post.regid;
 
-        }if (msg==2){
-            url1="http://artecinnovaciones.com/Peticion_json.php";
+        }
+        if (msg == 2) {
+            url1 = "http://artecinnovaciones.com/Peticion_json.php";
         }
 
         AsyncHttpClient cliente = new AsyncHttpClient();
@@ -150,7 +156,7 @@ public class RecyclerFragment extends Fragment {
                     try {
                         JSONArray jsonArray = new JSONArray(new String(responseBody));
                         for (int i = 0; i < jsonArray.length(); i++) {
-                            String pre="$ "+jsonArray.getJSONObject(i).getString("precio_img");
+                            String pre = "$ " + jsonArray.getJSONObject(i).getString("precio_img");
                             id.add(jsonArray.getJSONObject(i).getString("id"));
                             nombre.add(jsonArray.getJSONObject(i).getString("titulo_img"));
                             precio.add(pre);
@@ -175,7 +181,7 @@ public class RecyclerFragment extends Fragment {
         });
     }
 
-    private void initializeAdapter(){
+    private void initializeAdapter() {
         MyAdapter adapter = new MyAdapter(persons, new CustomItemClickListener() {
             @Override
             public void onItemClick(View v, int position) {
@@ -213,7 +219,7 @@ public class RecyclerFragment extends Fragment {
                 aF.startAnimation(anim);
 
                 //msg=
-                post.Sendpost("http://www.artecinnovaciones.com/favoritos.php","id_prod",id.get(i).toString(),2,getActivity().getApplicationContext());
+                post.Sendpost("http://www.artecinnovaciones.com/favoritos.php", "id_prod", id.get(i).toString(), 2, getActivity().getApplicationContext());
             }
         });
 
@@ -222,7 +228,7 @@ public class RecyclerFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 aC.startAnimation(anim);
-                a+=1;
+                a += 1;
                 Utils.setBadgeCount(RecyclerFragment.this.getActivity(), icon, a);
                 //msg=
                 post.Sendpost("http://www.artecinnovaciones.com/carrito.php", "id_prod", id.get(i).toString(), 3, getActivity().getApplicationContext());
@@ -232,11 +238,10 @@ public class RecyclerFragment extends Fragment {
         customDialog.show();
 
     }
+/*
+    public void getReigstrationId(final Context context) {
+        new AsyncTask<Void, Void, String>() {
 
-    public String getReigstrationId(final Context context){
-        new AsyncTask<Void, Void, String>(){
-
-            private String msg;
 
             @Override
             protected String doInBackground(Void... arg0) {
@@ -249,19 +254,21 @@ public class RecyclerFragment extends Fragment {
                     Log.i("Sender", SENDER_ID);
 
                     regid = gcm.register(SENDER_ID);
-                    msg="http://artecinnovaciones.com/json_favoritos.php?id_user="+regid;
+
 
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
 
-                return msg;
+                return "http://artecinnovaciones.com/json_favoritos.php?id_user=" + regid;
             }
 
             @Override
             protected void onPostExecute(String result) {
+                url1 = result;
+
             }
         }.execute();
-        return "http://artecinnovaciones.com/json_favoritos.php?id_user="+regid;
-    }
+
+    }*/
 }

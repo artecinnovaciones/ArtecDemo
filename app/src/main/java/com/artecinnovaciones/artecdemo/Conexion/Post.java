@@ -30,7 +30,7 @@ public class Post {
     private GoogleCloudMessaging gcm = null;
 
     private String SENDER_ID = "58800470060";
-    private String regid;
+    public static  String regid;
 
     String text="";
 
