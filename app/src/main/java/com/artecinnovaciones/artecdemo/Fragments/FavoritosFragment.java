@@ -120,7 +120,7 @@ public class FavoritosFragment extends Fragment {
                             precio.add(pre);
                             info.add(jsonArray.getJSONObject(i).getString("descripcion_img"));
                             cant.add(jsonArray.getJSONObject(i).getString("cant"));
-                            //tot.add(jsonArray.getJSONObject(i).getString("total"));
+                            tot.add(jsonArray.getJSONObject(i).getString("total"));
 
                             persons.add(new Datos(jsonArray.getJSONObject(i).getString("titulo_img"),
                                     pre,
@@ -144,10 +144,11 @@ public class FavoritosFragment extends Fragment {
     }
 
     private void initializeAdapter() {
-        double cn=0,tn=0;
+        float tn=0;
+        int cn=0;
         for (int i = 0; i < cant.size(); i++) {
-            cn+=Double.parseDouble(cant.get(i).toString());
-            tn+=Double.parseDouble(tot.get(i).toString());
+            cn+=Integer.parseInt(cant.get(i).toString());
+            tn+=Float.parseFloat(tot.get(i).toString());
         }
         T_c.setText(" "+cn);
         T_t.setText("$ "+tn);
